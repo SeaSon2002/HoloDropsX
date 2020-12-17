@@ -1,0 +1,27 @@
+name: ${project.name}
+version: ${project.version}
+main: me._proflix_.holodropsx.Main
+api-version: 1.16
+authors: [_ProfliX_]
+description: ${project.description}
+website: ${project.url}
+commands:
+  hdxreload:
+    usage: /<command>
+    description: Reload the config
+    permission: holodropsx.reload
+    permission-message: "§4§lHoloDropsX §r§cRequired permission: <permission>"
+    aliases: [hdxr]
+  hdxcheck:
+    usage: /<command>
+    description: Check for missing items in the config
+    permission: holodropsx.check
+    permission-message: "§4§lHoloDropsX §r§cRequired permission: <permission>"
+    aliases: [hdxc]
+permissions:
+  holodropsx.reload:
+    description: Allows the ability to reload the config
+    default: op
+  holodropsx.check:
+    description: Check for missing items in the config
+    default: op
