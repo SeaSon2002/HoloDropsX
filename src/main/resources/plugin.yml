@@ -1,7 +1,7 @@
 name: ${project.name}
-version: 2.0.1
-main: me._proflix_.holodropsx.Main
+version: ${project.version}
 api-version: 1.16
+main: me._proflix_.holodropsx.Main
 authors: [_ProfliX_]
 description: ${project.description}
 website: ${project.url}

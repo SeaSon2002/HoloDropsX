@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import static me._proflix_.holodropsx.util.ConfigReader.getStringList;
 
@@ -46,7 +47,7 @@ public class Settings {
         format.put("holo-format", Strings.color(ConfigReader.getString("holo-format")));
         format.put("protection-format", Strings.color(ConfigReader.getString("protection-format")));
         
-        for (String configMaterial : Main.m.getConfig().getConfigurationSection("item-names").getKeys(false)) {
+        for (String configMaterial : Objects.requireNonNull(Main.m.getConfig().getConfigurationSection("item-names")).getKeys(false)) {
             String mat = Main.m.getConfig().getString("item-names." + configMaterial);
             names.put(configMaterial, Strings.color(mat));
         }
@@ -115,11 +116,7 @@ public class Settings {
     }
     
     public String getNameFromMat(String material) {
-        if (names.containsKey(material)) {
-            return names.get(material);
-        } else {
-            return "";
-        }
+        return names.getOrDefault(material, "");
     }
     
     public boolean protectionEnabled() {

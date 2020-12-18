@@ -5,6 +5,7 @@ import org.bukkit.Material;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ConfigReader {
     
@@ -26,7 +27,7 @@ public class ConfigReader {
     
     public static List<Material> getMissingItems() {
         ArrayList<Material> configMats = new ArrayList<>();
-        for (String configMaterial : Main.m.getConfig().getConfigurationSection("item-names").getKeys(false)) {
+        for (String configMaterial : Objects.requireNonNull(Main.m.getConfig().getConfigurationSection("item-names")).getKeys(false)) {
             configMats.add(Material.getMaterial(configMaterial));
         }
         for (Material m : Material.values()) {

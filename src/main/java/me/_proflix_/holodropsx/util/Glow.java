@@ -7,11 +7,12 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Glow {
     
-    public static ArrayList<Team> teams = new ArrayList<Team>();
-    public static Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
+    public static ArrayList<Team> teams = new ArrayList<>();
+    public static Scoreboard scoreboard = Objects.requireNonNull(Bukkit.getScoreboardManager()).getMainScoreboard();
     
     public static void setGlowColor(ChatColor color, Entity entity) {
         String name = "HD" + color.getChar();

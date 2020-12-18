@@ -29,7 +29,7 @@ public class Strings {
     
     public static String makeName(Item drop, int count, String playerName, int time) {
         String formatted = !playerName.equals("") ? Main.m.settings.getProtFormat() + Main.m.settings.getFormat() : Main.m.settings.getFormat();
-        String itemName = "";
+        String itemName;
         itemName = makeItemName(drop);
         if (Main.m.settings.isBlacklisted(itemName) || isUUID(itemName)) {
             itemName = "";
@@ -41,17 +41,21 @@ public class Strings {
     }
     
     public static String makeItemName(Item drop) {
-        String itemName = "";
+        String itemName;
         
         ItemMeta meta = drop.getItemStack().getItemMeta();
         
         if (drop.getItemStack().getType() == Material.WRITTEN_BOOK) {
+            assert meta != null;
             itemName = bookTitle((BookMeta)meta);
         }
-        else if (meta.hasDisplayName() || Main.m.settings.getCustomNamesOnly()) {
-            itemName = meta.getDisplayName();
-        } else {
-            itemName = Main.m.settings.getNameFromMat(drop.getItemStack().getType().toString());
+        else {
+            assert meta != null;
+            if (meta.hasDisplayName() || Main.m.settings.getCustomNamesOnly()) {
+                itemName = meta.getDisplayName();
+            } else {
+                itemName = Main.m.settings.getNameFromMat(drop.getItemStack().getType().toString());
+            }
         }
         
         return itemName;
@@ -85,7 +89,7 @@ public class Strings {
         // %PLAYER% %ITEM%, no player would make it " %ITEM%" or " DIRT"
         //                                           ^
         if (replacement.equals("")) {
-            return string = string.replace(" " + replace + " ", "")
+            return string.replace(" " + replace + " ", "")
                     .replace(" " + replace, "")
                     .replace(replace + " ", "")
                     .replace(replace, "");
@@ -97,15 +101,17 @@ public class Strings {
     public static void makeItemFrameName(ItemStack item, int count) {
         ItemMeta meta = item.getItemMeta();
         String formatted = Main.m.settings.getFormat().toUpperCase();
-        String itemName = "";
+        String itemName;
     
         if (item.getType() == Material.WRITTEN_BOOK) {
+            assert meta != null;
             itemName = bookTitle((BookMeta)meta);
         } else {
             itemName = Main.m.settings.getNameFromMat(item.getType().name());
         }
         formatted = rePlaceholders(formatted, itemName, count, "", 0);
-        
+
+        assert meta != null;
         meta.setDisplayName(itemName.length() == 0 ? itemName : formatted);
         item.setItemMeta(meta);
         
@@ -113,7 +119,11 @@ public class Strings {
     
     public static void addWatermark(ItemStack item) {
         ItemMeta meta = item.getItemMeta();
-        List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList();
+        assert meta != null;
+        ArrayList<String> lore;
+        if (meta.hasLore()) lore = (ArrayList<String>) meta.getLore();
+        else lore = new ArrayList<>();
+        assert lore != null;
         lore.add("HoloDrops");
         meta.setLore(lore);
         item.setItemMeta(meta);
@@ -122,7 +132,9 @@ public class Strings {
     public static void removeWatermark(ItemStack item) {
         ItemMeta meta = item.getItemMeta();
         if (hasWatermark(item)) {
+            assert meta != null;
             List<String> lore = meta.getLore();
+            assert lore != null;
             lore.remove(lore.size() - 1);
             meta.setLore(lore);
             meta.setDisplayName("");
@@ -132,9 +144,11 @@ public class Strings {
     
     public static boolean hasWatermark(ItemStack item) {
         ItemMeta meta = item.getItemMeta();
+        assert meta != null;
         if (meta.hasLore()) {
             List<String> lore = meta.getLore();
             // last line has watermark
+            assert lore != null;
             return lore.get(lore.size() - 1).equals("HoloDrops");
         }
         return false;

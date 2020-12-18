@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Check implements CommandExecutor {
     
-    private String prefix = "" + ChatColor.DARK_RED + ChatColor.BOLD + "HoloDropsX ";
+    private final String prefix = "" + ChatColor.DARK_RED + ChatColor.BOLD + "HoloDropsX ";
     
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         check(sender);
@@ -25,7 +25,7 @@ public class Check implements CommandExecutor {
             for (Material m : mats) {
                 sender.sendMessage(m.toString());
             }
-        } else if (mats.size() == 0){
+        } else {
             sender.sendMessage(prefix + ChatColor.RESET + ChatColor.GREEN + "Your config isn't missing anything");
         }
     }
