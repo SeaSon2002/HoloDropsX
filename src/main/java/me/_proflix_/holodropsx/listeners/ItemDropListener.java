@@ -11,6 +11,8 @@ import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.Objects;
+
 
 public class ItemDropListener implements Listener {
     
@@ -21,7 +23,7 @@ public class ItemDropListener implements Listener {
         if (Main.m.settings.isWorldEnabled(drop.getWorld().getName())) {
             ItemStack item = drop.getItemStack();
             if (item.hasItemMeta()) {
-                if (checkBlacklistLore(item.getItemMeta())) {
+                if (checkBlacklistLore(Objects.requireNonNull(item.getItemMeta()))) {
                     return;
                 }
                 if (Strings.hasWatermark(item)) {
@@ -54,7 +56,7 @@ public class ItemDropListener implements Listener {
          */
         
         if (meta.hasLore()) {
-            for (String s : meta.getLore()) {
+            for (String s : Objects.requireNonNull(meta.getLore())) {
                 if (s.contains("Display Item")) {
                     return true;
                 }

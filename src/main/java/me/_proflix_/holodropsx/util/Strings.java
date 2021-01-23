@@ -1,6 +1,7 @@
 package me._proflix_.holodropsx.util;
 
 import me._proflix_.holodropsx.Main;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Item;
@@ -10,23 +11,71 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
+/**
+ * The type Strings.
+ */
 public class Strings {
-    
-    public static String color(String string) {
-        return ChatColor.translateAlternateColorCodes('&', string);
+
+    private final static Function<String, String> FUNCTION;
+
+    static {
+        //If server version is 1.16 or higher, make the function translte from bungeecord-chat API
+        if (Bukkit.getBukkitVersion().contains("1.16")) {
+            FUNCTION = s -> net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&', s);
+            //Else make it compatible with the bukkit class
+        } else {
+            FUNCTION = s -> org.bukkit.ChatColor.translateAlternateColorCodes('&', s);
+        }
     }
+
+    private void Utils() {
+        throw new ExceptionInInitializerError("This class may not be initialized"); //Let no one invoke this class
+    }
+
+    /**
+     * Color string.
+     *
+     * @param string the string
+     * @return the string
+     */
+    public static String color(String string) {
+        return FUNCTION.apply(string);
+    }
+
+    /**
+     * Color list list.
+     *
+     * @param list the list
+     * @return the list
+     */
     public static List<String> colorList(List<String> list) { // color the glowlist
         for (int x = 0; x < list.size(); x++) {
             list.set(x, color(list.get(x)));
         }
         return list;
     }
-    
+
+    /**
+     * Strip color string.
+     *
+     * @param string the string
+     * @return the string
+     */
     public static String stripColor(String string) {
         return ChatColor.stripColor(string);
     }
-    
+
+    /**
+     * Make name string.
+     *
+     * @param drop       the drop
+     * @param count      the count
+     * @param playerName the player name
+     * @param time       the time
+     * @return the string
+     */
     public static String makeName(Item drop, int count, String playerName, int time) {
         String formatted = !playerName.equals("") ? Main.m.settings.getProtFormat() + Main.m.settings.getFormat() : Main.m.settings.getFormat();
         String itemName;
@@ -39,7 +88,13 @@ public class Strings {
         return itemName.length() == 0 ? itemName : formatted;
         
     }
-    
+
+    /**
+     * Make item name string.
+     *
+     * @param drop the drop
+     * @return the string
+     */
     public static String makeItemName(Item drop) {
         String itemName;
         
@@ -96,8 +151,14 @@ public class Strings {
         }
         return string.replace(replace, replacement);
     }
-    
-    // count is supplied to make a call to rePlaceholders
+
+    /**
+     * Make item frame name.
+     *
+     * @param item  the item
+     * @param count the count
+     */
+// count is supplied to make a call to rePlaceholders
     public static void makeItemFrameName(ItemStack item, int count) {
         ItemMeta meta = item.getItemMeta();
         String formatted = Main.m.settings.getFormat().toUpperCase();
@@ -116,7 +177,12 @@ public class Strings {
         item.setItemMeta(meta);
         
     }
-    
+
+    /**
+     * Add watermark.
+     *
+     * @param item the item
+     */
     public static void addWatermark(ItemStack item) {
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
@@ -128,7 +194,12 @@ public class Strings {
         meta.setLore(lore);
         item.setItemMeta(meta);
     }
-    
+
+    /**
+     * Remove watermark.
+     *
+     * @param item the item
+     */
     public static void removeWatermark(ItemStack item) {
         ItemMeta meta = item.getItemMeta();
         if (hasWatermark(item)) {
@@ -141,7 +212,13 @@ public class Strings {
             item.setItemMeta(meta);
         }
     }
-    
+
+    /**
+     * Has watermark boolean.
+     *
+     * @param item the item
+     * @return the boolean
+     */
     public static boolean hasWatermark(ItemStack item) {
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
@@ -153,7 +230,13 @@ public class Strings {
         }
         return false;
     }
-    
+
+    /**
+     * Is uuid boolean.
+     *
+     * @param name the name
+     * @return the boolean
+     */
     public static boolean isUUID(String name) {
         return (stripColor(name).matches("[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}"));
     }

@@ -13,6 +13,8 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Objects;
+
 public class ItemFrameClickListener implements Listener {
     
     @EventHandler
@@ -28,7 +30,7 @@ public class ItemFrameClickListener implements Listener {
                     ItemStack newone = p.getItemOnCursor().clone();
                     // if it doesnt have a name AND its not on custom names only mode: put a name on it to display
                     // custom named items will always display (vanilla feature)
-                    if (!newone.getItemMeta().hasDisplayName() && !Main.m.settings.getCustomNamesOnly()) {
+                    if (!Objects.requireNonNull(newone.getItemMeta()).hasDisplayName() && !Main.m.settings.getCustomNamesOnly()) {
                         Strings.makeItemFrameName(newone, 0);
                         Strings.addWatermark(newone);
                     }

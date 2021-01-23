@@ -11,6 +11,8 @@ import me._proflix_.holodropsx.util.Glow;
 import me._proflix_.holodropsx.util.Settings;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Objects;
+
 public final class Main extends JavaPlugin {
     
     public static Main m;
@@ -27,8 +29,8 @@ public final class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ItemFrameClickListener(), this);
         getServer().getPluginManager().registerEvents(new ItemPickupListener(), this);
         getServer().getPluginManager().registerEvents(new BlockDropListener(), this);
-        getCommand("hdxreload").setExecutor(new Reload());
-        getCommand("hdxcheck").setExecutor(new Check());
+        Objects.requireNonNull(getCommand("hdxreload")).setExecutor(new Reload());
+        Objects.requireNonNull(getCommand("hdxcheck")).setExecutor(new Check());
     
     }
     
